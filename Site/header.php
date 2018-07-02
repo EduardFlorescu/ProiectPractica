@@ -20,6 +20,6 @@
                 <a href="login.php">LOG IN</a>
             </div>
 
-            <img src="./img/restaurant.jpg" alt="Restaurant"/>
+            <img src="../img/restaurant.jpg" alt="Restaurant"/>
         </div>
     
