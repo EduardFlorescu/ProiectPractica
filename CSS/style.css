@@ -1,0 +1,24 @@
+#logo{
+    text-align: center;
+}
+
+#imgLogo{
+    width:100%;
+    height:350px;
+}
+
+body{
+    background-color: aqua;
+}
+
+#navigation-bar{
+    text-align: right;
+}
+
+.centered{
+    position: sticky;
+}
+
+#meniuri{
+    text-align: center;
+}
