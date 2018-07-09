@@ -13,6 +13,13 @@ include "header.php";
     if (isset($comanda)) {
         switch ($comanda){
             case 'delete':
+
+                $id = $_REQUEST["delete"];
+                $sqlSterg = "DELETE FROM detaliimeniu WHERE idMeniu='$id'";
+                    if (!mysqli_query($conexiune, $sqlSterg)) {
+                        die('Error: ' . mysqli_error($conexiune));
+                    }
+
                 $id = $_REQUEST["delete"];
                 $sql = "DELETE FROM meniu WHERE idMeniu='$id'";
                 if (!mysqli_query($conexiune, $sql)) {
