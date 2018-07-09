@@ -22,14 +22,17 @@ include "header.php"
 
 <?php
 //  verifica daca exista date transmise
-if ($_POST['login_username'] != "" && $_POST['login_password'] != '') {
+if ($_POST['login_username'] != '' && $_POST['login_password'] != '') {
  
     // preia datele din formular
     $username = $_POST['login_username'];
-    $password = $_POST['login_password'];
+    $password = md5($_POST['login_password']);
  
+    $username = mysqli_real_escape_string($conexiune,$username);
+    $password = mysqli_real_escape_string($conexiune,$password);
+
     // formeaza si executa query-ul de select din baza de date
-    $query = "SELECT * FROM cont WHERE `username` = '".$username."' AND `password` = '".$password."'";
+    $query = "SELECT * FROM cont WHERE `username` = '$username' AND `password` = '$password'";
     $result = mysqli_query($conexiune,$query) or die ( "Error : ". mysqli_error($conexiune) );
  
     // verifica daca interogarea MySQL a gasit date valide
