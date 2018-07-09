@@ -34,3 +34,5 @@ CREATE TABLE cont(
 	username VARCHAR(50),
 	password VARCHAR(50)
 );
+
+INSERT INTO cont (`nume`,`prenume`,`username`,`password`) VALUES ('Zachary','Soler','zach_s',MD5('TehnologiiWeb'));
