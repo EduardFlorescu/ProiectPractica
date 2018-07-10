@@ -62,7 +62,8 @@ include "connect.php";
                       <div class="row">
                         <div class="col-xs-12">
                           <form action="produse.php?categorie='.$idCateg.'" method="post" class="form-horizontal" enctype="multipart/form-data">
-                            <input name="comanda" type="hidden" value="add" />
+                            <input name="comanda" type="hidden" value="update" />
+                            <input name="idProdus" type="hidden" value="'.$idProdus.'"/>
                             <div class="form-group">
                                 <label for="NumeProdus" class="col-sm-2 control-label">  Nume: </label>
                                 <div class="col-sm-10">
@@ -175,7 +176,7 @@ include "connect.php";
                     } 
                 }   
                 break;
--------
+
                 case 'add':
                     $idCateg = $_GET["categorie"];
                     echo '
