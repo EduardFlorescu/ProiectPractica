@@ -129,7 +129,7 @@ include "connect.php";
                 //echo "Sorry, file already exists.";
                 $uploadOk = 0;
                 }
-                
+
                 // Allow certain file formats
                 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
                 && $imageFileType != "gif" ) {
@@ -155,7 +155,7 @@ include "connect.php";
                     $ingrediente= $_REQUEST["ingrediente"];
 
                     $caleImagineProdus= $target_file;
-                    
+
 
 
 
@@ -165,16 +165,16 @@ include "connect.php";
                     $ingrediente= mysqli_real_escape_string($conexiune,$ingrediente);
                     $caleImagineProdus= mysqli_real_escape_string($conexiune,$caleImagineProdus);
                 if(basename($_FILES["caleImagineProdus"]["name"]) && $numeProdus && $pret && $gramaj && $ingrediente){
-                    $sqlUpp = "UPDATE produse SET numeProdus='$numeProdus', pret='$pret', gramaj='$gramaj', 
+                    $sqlUpp = "UPDATE produse SET numeProdus='$numeProdus', pret='$pret', gramaj='$gramaj',
                     ingrediente='$ingrediente', caleImagineProdus ='$caleImagineProdus' WHERE idProdus='$idProdus'";
-                
+
                     if (!mysqli_query($conexiune, $sqlUpp)) {
                     die('Error: ' . mysqli_error($conexiune));
                     } else {
                     echo "<font color='red'>Intrarea cu idul
                     $idProdus a fost actualizata cu succes!</font><br/>";
-                    } 
-                }   
+                    }
+                }
                 break;
 
                 case 'add':
@@ -244,7 +244,7 @@ include "connect.php";
                     //echo "Sorry, file already exists.";
                     $uploadOk = 0;
                     }
-                
+
                     // Allow certain file formats
                     if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
                     && $imageFileType != "gif" ) {
@@ -262,8 +262,8 @@ include "connect.php";
                        // echo "Sorry, there was an error uploading your file.";
                     }
                     }
-                    
-                   
+
+
 
                     $numeProdus= $_REQUEST["numeProdus"];
                     $pret= $_REQUEST["pret"];
@@ -274,7 +274,7 @@ include "connect.php";
                     if(basename($_FILES["caleImagineProdus"]["name"]) && $numeProdus && $pret && $gramaj && $ingrediente){
                         $stmt =$conexiune -> prepare("INSERT INTO produse (numeProdus,pret,gramaj,ingrediente,caleImagineProdus) VALUES (?,?,?,?,?)");
                         $stmt->bind_param("sddss",$numeProdus,$pret,$gramaj,$ingrediente, $caleImagineProdus);
-                    
+
                         $stmt->execute();
 
                         $sqlSelect="SELECT * FROM produse WHERE numeProdus='$numeProdus'";
@@ -294,7 +294,9 @@ include "connect.php";
         $res = mysqli_query($conexiune, $query) or die(mysqli_error($conexiune));
 
         if(mysqli_num_rows($res)>0){
-            echo '<table align="center" border="1" class="centered"><tr>
+            echo '<table align="center" class="table table-hover">
+            <thead>
+            <tr>
             <th></th>
             <th>NUME</th>
             <th>GRAME</th>
@@ -305,7 +307,8 @@ include "connect.php";
                echo '<th></th>
                 <th></th>';
             }
-            echo '</tr>';
+            echo '</tr></thead><tbody>';
+
             while($row=mysqli_fetch_array($res)){
                 echo '<tr><td><img src="'.$row['caleImagineProdus'].
                 '" height="50" weight="50"/></td>'.
@@ -325,7 +328,7 @@ include "connect.php";
                 }
                 echo '</tr>';
             }
-            echo '</table>';
+            echo '</tbody></table>';
         }else{
             echo "Nu exista intrari in baza de date!";
         }
