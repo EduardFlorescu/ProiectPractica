@@ -31,7 +31,7 @@ include "connect.php";
             switch ($comanda){
                 case 'delete':
                     $idSterg = $_REQUEST["delete"];
-                   
+
                     $sqlSterg = "DELETE FROM detaliimeniu WHERE idProdus='$idSterg'";
                     if (!mysqli_query($conexiune, $sqlSterg)) {
                         die('Error: ' . mysqli_error($conexiune));
@@ -43,51 +43,67 @@ include "connect.php";
                     }
                     echo "<font color='red'>Intrarea cu id-ul $idSterg a fost stearsa cu succes</font><br/>";
                     break;
-                
+
                 case 'edit':
                     $idEdit = $_REQUEST["edit"];
                     $idCateg = $_GET["categorie"];
                     $sqlEdit = "SELECT * FROM produse WHERE idProdus='$idEdit'";
                     $result = mysqli_query($conexiune, $sqlEdit);
-                    if ($rowEdit = mysqli_fetch_array($result)) { 
+                    if ($rowEdit = mysqli_fetch_array($result)) {
                         $idProdus=$rowEdit['idProdus'];
                         $numeProdus=$rowEdit['numeProdus'];
                         $pret=$rowEdit['pret'];
                         $gramaj=$rowEdit['gramaj'];
                         $ingrediente=$rowEdit['ingrediente'];
                         $caleImagineProdus=$rowEdit['caleImagineProdus'];
-                    echo '<div class="centered">
-                        <form action="produse.php?categorie='.$idCateg.'" method="post"  enctype="multipart/form-data">
-                            <input name="comanda" type="hidden" value="update" />
-                            <input name="idProdus" type="hidden" value="'.$idProdus.'"/>
-                            <label>
-                            Nume:
-                            </label>
-                            <input name="numeProdus" type="text" value="'.$numeProdus.'" />
-                            <label>
-                            Pret:
-                            </label>
-                            <input name="pret" type="number" step="any" value="'.$pret.'" />
-                            <label>
-                            Gramaj:
-                            </label>
-                            <input name="gramaj" type="number" step="any" value="'.$gramaj.'" />
-                            <label>
-                            Ingrediente:
-                            </label>
-                            <input name="ingrediente" type="text" value="'.$ingrediente.'" />
-                            <label>
-                            Imagine:
-                            </label>
-                            
-                            <input type="file" name="caleImagineProdus" id="caleImagineProdus" >
-                            <button type="submit" name="categorie" value="'.$idCateg.'">Update</button>
-                        </form> 
-                        <br/>
-                        <br/>
-                        </div>';
+
+                    echo '
+                    <div class="centered">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <form action="produse.php?categorie='.$idCateg.'" method="post" class="form-horizontal" enctype="multipart/form-data">
+                            <input name="comanda" type="hidden" value="add" />
+                            <div class="form-group">
+                                <label for="NumeProdus" class="col-sm-2 control-label">  Nume: </label>
+                                <div class="col-sm-10">
+                                  <input name="numeProdus" class="form-control" type="text" id="NumeProddus" value="'.$numeProdus.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Pret" class="col-sm-2 control-label">Pret:</label>
+                                <div class="col-sm-10">
+                                  <input name="pret" class="form-control" type="number" step="any" id="Pret" value="'.$pret.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="Gramaj" class="col-sm-2 control-label" >Gramaj:</label>
+                                <div class="col-sm-10">
+                                  <input name="gramaj" class="form-control" type="number" step="any" id="Gramaj" value="'.$gramaj.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Ingrediente" class="col-sm-2 control-label">Ingrediente:</label>
+                                <div class="col-sm-10">
+                                  <input name="ingrediente" class="form-control" type="text" id="Ingrediente" value="'.$ingrediente.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="caleImagineProdus"  class="col-sm-2 control-label">Imagine:</label>
+                                <div class="col-sm-10">
+                                  <input name="caleImagineProdus"  class="form-control" type="file" id="caleImagineProdus" value="'.$caleImagineProdus.'"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="col-sm-10  col-sm-push-2 ">
+                                <button type="submit" name="categorie" value="'.$idCateg.'">Update</button>
+                              </div>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+                </div>';
                     }else{
-                        echo "<font color='red'>Intrarea cu id-ul $idEdit nu exista!</font><br/>"; 
+                        echo "<font color='red'>Intrarea cu id-ul $idEdit nu exista!</font><br/>";
                     }
                     break;
                 case 'update':
@@ -136,8 +152,12 @@ include "connect.php";
                     $pret= $_REQUEST["pret"];
                     $gramaj= $_REQUEST["gramaj"];
                     $ingrediente= $_REQUEST["ingrediente"];
+
                     $caleImagineProdus= $target_file;
                     
+
+
+
                     $numeProdus= mysqli_real_escape_string($conexiune,$numeProdus);
                     //$pret= mysqli_real_escape_string($conexiune,$pret);
                     //$gramaj= mysqli_real_escape_string($conexiune,$gramaj);
@@ -155,38 +175,53 @@ include "connect.php";
                     } 
                 }   
                 break;
-
+-------
                 case 'add':
                     $idCateg = $_GET["categorie"];
-                    echo '<div class="centered">
-                        <form action="produse.php?categorie='.$idCateg.'" method="post"  enctype="multipart/form-data">
-                        <input name="comanda" type="hidden" value="add" />
-                        <label>
-                            Nume:
-                        </label>
-                        <input name="numeProdus" type="text" value="'.$numeProdus.'" />
-                        <label>
-                            Pret:
-                        </label>
-                        <input name="pret" type="number" step="any" value="'.$pret.'" />
-                        <label>
-                        Gramaj:
-                        </label>
-                        <input name="gramaj" type="number" step="any" value="'.$gramaj.'" />
-                        <label>
-                        Ingrediente:
-                        </label>
-                        <input name="ingrediente" type="text" value="'.$ingrediente.'" />
-                        <label>
-                        Imagine:
-                        </label>
-                        <input type="file" name="caleImagineProdus" id="caleImagineProdus" >
-                        
-                        <button type="submit" name="categorie" value="'.$idCateg.'">ADD</button>
-                    </form>
-                    <br/>
-                    <br/>
-                    </div>';
+                    echo '
+                    <div class="centered">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <form action="produse.php?categorie='.$idCateg.'" method="post" class="form-horizontal" enctype="multipart/form-data">
+                            <input name="comanda" type="hidden" value="add" />
+                            <div class="form-group">
+                                <label for="NumeProdus" class="col-sm-2 control-label">  Nume: </label>
+                                <div class="col-sm-10">
+                                  <input name="numeProdus" class="form-control" type="text" id="NumeProddus" value="'.$numeProdus.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Pret" class="col-sm-2 control-label">Pret:</label>
+                                <div class="col-sm-10">
+                                  <input name="pret" class="form-control" type="number" step="any" id="Pret" value="'.$pret.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="Gramaj" class="col-sm-2 control-label" >Gramaj:</label>
+                                <div class="col-sm-10">
+                                  <input name="gramaj" class="form-control" type="number" step="any" id="Gramaj" value="'.$gramaj.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Ingrediente" class="col-sm-2 control-label">Ingrediente:</label>
+                                <div class="col-sm-10">
+                                  <input name="ingrediente" class="form-control" type="text" id="Ingrediente" value="'.$ingrediente.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="caleImagineProdus"  class="col-sm-2 control-label">Imagine:</label>
+                                <div class="col-sm-10">
+                                  <input name="caleImagineProdus" class="form-control" type="file" id="caleImagineProdus" value="'.$caleImagineProdus.'"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="col-sm-10  col-sm-push-2 ">
+                                <button type="submit" name="categorie" class="btn btn-default" value="'.$idCateg.'">ADD</button>
+                              </div>
+                          </form>
+                      </div>
+                    </div>
+                  </div>';
 
                     $target_dir = "../Imagini/";
                     $target_file = $target_dir . basename($_FILES["caleImagineProdus"]["name"]);
@@ -227,6 +262,8 @@ include "connect.php";
                     }
                     }
                     
+                   
+
                     $numeProdus= $_REQUEST["numeProdus"];
                     $pret= $_REQUEST["pret"];
                     $gramaj= $_REQUEST["gramaj"];

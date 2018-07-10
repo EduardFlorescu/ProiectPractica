@@ -66,16 +66,31 @@ include "connect.php";
     }
 
 ?>
-
-    <form action="add_meniu.php" method="post" enctype="multipart/form-data">
-      <input name="comanda" type="hidden" value="add" />
-      Nume: <input type="text" name="nume" />
-      <br/>
-      <br/>
-       <input type="file" name="fileToUpload" id="fileToUpload">
-       <input type="submit" value="Submit" name="submit">
-    </form>
-
+<div class="centered">
+  <div class="row">
+    <div class="col-xs-12">
+        <form action="add_meniu.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+            <input name="comanda" type="hidden" value="add" />
+                <div class="form-group">
+                    <label for="Nume" class="col-sm-2 control-label">  Nume: </label>
+                    <div class="col-sm-10">
+                        <input type="text"  class="form-control"  id="Nume" name="nume" />
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label for="Imagine"  class="col-sm-2 control-label">Imagine:</label>
+                  <div class="col-sm-10">
+                      <input type="file"  class="form-control" id="Imagine"  name="fileToUpload" id="fileToUpload">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10 col-sm-push-2">
+                      <input type="submit" value="Submit" name="submit">
+                  </div>
+               </div>
+          </form>
+      </div>
+    </div>
 </div>
 
 <?php
