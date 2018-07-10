@@ -30,7 +30,7 @@ include "connect.php";
             switch ($comanda){
                 case 'delete':
                     $idSterg = $_REQUEST["delete"];
-                   
+
                     $sqlSterg = "DELETE FROM detaliimeniu WHERE idProdus='$idSterg'";
                     if (!mysqli_query($conexiune, $sqlSterg)) {
                         die('Error: ' . mysqli_error($conexiune));
@@ -42,50 +42,66 @@ include "connect.php";
                     }
                     echo "<font color='red'>Intrarea cu id-ul $idSterg a fost stearsa cu succes</font><br/>";
                     break;
-                
+
                 case 'edit':
                     $idEdit = $_REQUEST["edit"];
                     $idCateg = $_GET["categorie"];
                     $sqlEdit = "SELECT * FROM produse WHERE idProdus='$idEdit'";
                     $result = mysqli_query($conexiune, $sqlEdit);
-                    if ($rowEdit = mysqli_fetch_array($result)) { 
+                    if ($rowEdit = mysqli_fetch_array($result)) {
                         $idProdus=$rowEdit['idProdus'];
                         $numeProdus=$rowEdit['numeProdus'];
                         $pret=$rowEdit['pret'];
                         $gramaj=$rowEdit['gramaj'];
                         $ingrediente=$rowEdit['ingrediente'];
                         $caleImagineProdus=$rowEdit['caleImagineProdus'];
-                    echo '<div class="centered">
-                        <form action="produse.php?categorie='.$idCateg.'" method="post">
-                            <input name="comanda" type="hidden" value="update" />
-                            <input name="idProdus" type="hidden" value="'.$idProdus.'"/>
-                            <label>
-                            Nume:
-                            </label>
-                            <input name="numeProdus" type="text" value="'.$numeProdus.'" />
-                            <label>
-                            Pret:
-                            </label>
-                            <input name="pret" type="number" value="'.$pret.'" />
-                            <label>
-                            Gramaj:
-                            </label>
-                            <input name="gramaj" type="number" value="'.$gramaj.'" />
-                            <label>
-                            Ingrediente:
-                            </label>
-                            <input name="ingrediente" type="text" value="'.$ingrediente.'" />
-                            <label>
-                            Imagine:
-                            </label>
-                            <input name="caleImagineProdus" type="text" value="'.$caleImagineProdus.'" />
-                            <button type="submit" name="categorie" value="'.$idCateg.'">Update</button>
-                        </form> 
-                        <br/>
-                        <br/>
-                        </div>';
+                    echo '
+                    <div class="centered">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <form action="produse.php?categorie='.$idCateg.'" method="post" class="form-horizontal">
+                            <input name="comanda" type="hidden" value="add" />
+                            <div class="form-group">
+                                <label for="NumeProdus" class="col-sm-2 control-label">  Nume: </label>
+                                <div class="col-sm-10">
+                                  <input name="numeProdus" class="form-control" type="text" id="NumeProddus" value="'.$numeProdus.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Pret" class="col-sm-2 control-label">Pret:</label>
+                                <div class="col-sm-10">
+                                  <input name="pret" class="form-control" type="number" id="Pret" value="'.$pret.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="Gramaj" class="col-sm-2 control-label" >Gramaj:</label>
+                                <div class="col-sm-10">
+                                  <input name="gramaj" class="form-control" type="number" id="Gramaj" value="'.$gramaj.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Ingrediente" class="col-sm-2 control-label">Ingrediente:</label>
+                                <div class="col-sm-10">
+                                  <input name="ingrediente" class="form-control" type="text" id="Ingrediente" value="'.$ingrediente.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Imagine"  class="col-sm-2 control-label">Imagine:</label>
+                                <div class="col-sm-10">
+                                  <input name="caleImagineProdus" class="form-control" type="text" id="Imagine" value="'.$caleImagineProdus.'"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="col-sm-10  col-sm-push-2 ">
+                                <button type="submit" name="categorie" value="'.$idCateg.'">Update</button>
+                              </div>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+                </div>';
                     }else{
-                        echo "<font color='red'>Intrarea cu id-ul $idEdit nu exista!</font><br/>"; 
+                        echo "<font color='red'>Intrarea cu id-ul $idEdit nu exista!</font><br/>";
                     }
                     break;
                 case 'update':
@@ -95,55 +111,71 @@ include "connect.php";
                     $gramaj= $_REQUEST["gramaj"];
                     $ingrediente= $_REQUEST["ingrediente"];
                     $caleImagineProdus= $_REQUEST["caleImagineProdus"];
-                    
+
                     $numeProdus= mysqli_real_escape_string($conexiune,$numeProdus);
                     $pret= mysqli_real_escape_string($conexiune,$pret);
                     $gramaj= mysqli_real_escape_string($conexiune,$gramaj);
                     $ingrediente= mysqli_real_escape_string($conexiune,$ingrediente);
                     $caleImagineProdus= mysqli_real_escape_string($conexiune,$caleImagineProdus);
 
-                    $sqlUpp = "UPDATE produse SET numeProdus='$numeProdus', pret='$pret', gramaj='$gramaj', 
+                    $sqlUpp = "UPDATE produse SET numeProdus='$numeProdus', pret='$pret', gramaj='$gramaj',
                     ingrediente='$ingrediente', caleImagineProdus ='$caleImagineProdus' WHERE idProdus='$idProdus'";
                     if (!mysqli_query($conexiune, $sqlUpp)) {
                     die('Error: ' . mysqli_error($conexiune));
                     } else {
                     echo "<font color='red'>Intrarea cu idul
                     $idProdus a fost actualizata cu succes!</font><br/>";
-                    } 
+                    }
 
                 break;
 
                 case 'add':
                     $idCateg = $_GET["categorie"];
-                    echo '<div class="centered">
-                        <form action="produse.php?categorie='.$idCateg.'" method="post">
-                        <input name="comanda" type="hidden" value="add" />
-                        <label>
-                            Nume:
-                        </label>
-                        <input name="numeProdus" type="text" value="'.$numeProdus.'" />
-                        <label>
-                            Pret:
-                        </label>
-                        <input name="pret" type="number" value="'.$pret.'" />
-                        <label>
-                        Gramaj:
-                        </label>
-                        <input name="gramaj" type="number" value="'.$gramaj.'" />
-                        <label>
-                        Ingrediente:
-                        </label>
-                        <input name="ingrediente" type="text" value="'.$ingrediente.'" />
-                        <label>
-                        Imagine:
-                        </label>
-                        <input name="caleImagineProdus" type="text" value="'.$caleImagineProdus.'"/>
-                        <button type="submit" name="categorie" value="'.$idCateg.'">ADD</button>
-                    </form>
-                    <br/>
-                    <br/>
-                    </div>';
-                    
+                    echo '
+                    <div class="centered">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <form action="produse.php?categorie='.$idCateg.'" method="post" class="form-horizontal">
+                            <input name="comanda" type="hidden" value="add" />
+                            <div class="form-group">
+                                <label for="NumeProdus" class="col-sm-2 control-label">  Nume: </label>
+                                <div class="col-sm-10">
+                                  <input name="numeProdus" class="form-control" type="text" id="NumeProddus" value="'.$numeProdus.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Pret" class="col-sm-2 control-label">Pret:</label>
+                                <div class="col-sm-10">
+                                  <input name="pret" class="form-control" type="number" id="Pret" value="'.$pret.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="Gramaj" class="col-sm-2 control-label" >Gramaj:</label>
+                                <div class="col-sm-10">
+                                  <input name="gramaj" class="form-control" type="number" id="Gramaj" value="'.$gramaj.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Ingrediente" class="col-sm-2 control-label">Ingrediente:</label>
+                                <div class="col-sm-10">
+                                  <input name="ingrediente" class="form-control" type="text" id="Ingrediente" value="'.$ingrediente.'" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Imagine"  class="col-sm-2 control-label">Imagine:</label>
+                                <div class="col-sm-10">
+                                  <input name="caleImagineProdus" class="form-control" type="text" id="Imagine" value="'.$caleImagineProdus.'"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="col-sm-10  col-sm-push-2 ">
+                                <button type="submit" name="categorie" class="btn btn-default" value="'.$idCateg.'">ADD</button>
+                              </div>
+                          </form>
+                      </div>
+                    </div>
+                  </div>';
+
                     $numeProdus= $_REQUEST["numeProdus"];
                     $pret= $_REQUEST["pret"];
                     $gramaj= $_REQUEST["gramaj"];
@@ -152,7 +184,7 @@ include "connect.php";
 
                     $stmt =$conexiune -> prepare("INSERT INTO produse (numeProdus,pret,gramaj,ingrediente,caleImagineProdus) VALUES (?,?,?,?,?)");
                     $stmt->bind_param("sddss",$numeProdus,$pret,$gramaj,$ingrediente, $caleImagineProdus);
-                   
+
                     $stmt->execute();
 
                     $sqlSelect="SELECT * FROM produse WHERE numeProdus='$numeProdus' AND pret='$pret' AND gramaj='$gramaj' AND
