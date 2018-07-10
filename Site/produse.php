@@ -16,12 +16,13 @@ include "connect.php";
         }
 ?>
         <div id="btn">
-        <?php if($ok==1)
+        <?php if($ok==1){
                 $idCateg = $_GET["categorie"];
                 echo '<form action="produse.php?categorie='.$idCateg.'">
                 <input name="comanda" type="hidden" value="add" />
                 <button type="submit" name="categorie" value="'.$idCateg.'">ADD</button>
                 </form>';
+        }
             ?>
         <div>
 <?php
@@ -56,7 +57,7 @@ include "connect.php";
                         $ingrediente=$rowEdit['ingrediente'];
                         $caleImagineProdus=$rowEdit['caleImagineProdus'];
                     echo '<div class="centered">
-                        <form action="produse.php?categorie='.$idCateg.'" method="post">
+                        <form action="produse.php?categorie='.$idCateg.'" method="post"  enctype="multipart/form-data">
                             <input name="comanda" type="hidden" value="update" />
                             <input name="idProdus" type="hidden" value="'.$idProdus.'"/>
                             <label>
@@ -66,11 +67,11 @@ include "connect.php";
                             <label>
                             Pret:
                             </label>
-                            <input name="pret" type="number" value="'.$pret.'" />
+                            <input name="pret" type="number" step="any" value="'.$pret.'" />
                             <label>
                             Gramaj:
                             </label>
-                            <input name="gramaj" type="number" value="'.$gramaj.'" />
+                            <input name="gramaj" type="number" step="any" value="'.$gramaj.'" />
                             <label>
                             Ingrediente:
                             </label>
@@ -78,7 +79,8 @@ include "connect.php";
                             <label>
                             Imagine:
                             </label>
-                            <input name="caleImagineProdus" type="text" value="'.$caleImagineProdus.'" />
+                            
+                            <input type="file" name="caleImagineProdus" id="caleImagineProdus" >
                             <button type="submit" name="categorie" value="'.$idCateg.'">Update</button>
                         </form> 
                         <br/>
@@ -89,34 +91,75 @@ include "connect.php";
                     }
                     break;
                 case 'update':
+
+                $target_dir = "../Imagini/";
+                $target_file = $target_dir . basename($_FILES["caleImagineProdus"]["name"]);
+                $uploadOk = 1;
+                $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+                // Check if image file is a actual image or fake image
+                if(isset($_POST["submit"])) {
+                $check = getimagesize($_FILES["caleImagineProdus"]["tmp_name"]);
+                if($check !== false) {
+                    //echo "File is an image - " . $check["mime"] . ".";
+                    $uploadOk = 1;
+                } else {
+                    //echo "File is not an image.";
+                    $uploadOk = 0;
+                }
+                }
+                // Check if file already exists
+                if (file_exists($target_file)) {
+                //echo "Sorry, file already exists.";
+                $uploadOk = 0;
+                }
+                
+                // Allow certain file formats
+                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif" ) {
+               // echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                $uploadOk = 0;
+                }
+                // Check if $uploadOk is set to 0 by an error
+                if ($uploadOk == 0) {
+                echo "Sorry, your file was not uploaded.";
+                // if everything is ok, try to upload file
+                } else {
+                if (move_uploaded_file($_FILES["caleImagineProdus"]["tmp_name"], $target_file)) {
+                    //echo "The file ". basename( $_FILES["caleImagineProdus"]["name"]). " has been uploaded.";
+                } else {
+                   // echo "Sorry, there was an error uploading your file.";
+                }
+                }
+
                     $idProdus= $_REQUEST["idProdus"];
                     $numeProdus= $_REQUEST["numeProdus"];
                     $pret= $_REQUEST["pret"];
                     $gramaj= $_REQUEST["gramaj"];
                     $ingrediente= $_REQUEST["ingrediente"];
-                    $caleImagineProdus= $_REQUEST["caleImagineProdus"];
+                    $caleImagineProdus= $target_file;
                     
                     $numeProdus= mysqli_real_escape_string($conexiune,$numeProdus);
-                    $pret= mysqli_real_escape_string($conexiune,$pret);
-                    $gramaj= mysqli_real_escape_string($conexiune,$gramaj);
+                    //$pret= mysqli_real_escape_string($conexiune,$pret);
+                    //$gramaj= mysqli_real_escape_string($conexiune,$gramaj);
                     $ingrediente= mysqli_real_escape_string($conexiune,$ingrediente);
                     $caleImagineProdus= mysqli_real_escape_string($conexiune,$caleImagineProdus);
-
+                if(basename($_FILES["caleImagineProdus"]["name"]) && $numeProdus && $pret && $gramaj && $ingrediente){
                     $sqlUpp = "UPDATE produse SET numeProdus='$numeProdus', pret='$pret', gramaj='$gramaj', 
                     ingrediente='$ingrediente', caleImagineProdus ='$caleImagineProdus' WHERE idProdus='$idProdus'";
+                
                     if (!mysqli_query($conexiune, $sqlUpp)) {
                     die('Error: ' . mysqli_error($conexiune));
                     } else {
                     echo "<font color='red'>Intrarea cu idul
                     $idProdus a fost actualizata cu succes!</font><br/>";
                     } 
-
+                }   
                 break;
 
                 case 'add':
                     $idCateg = $_GET["categorie"];
                     echo '<div class="centered">
-                        <form action="produse.php?categorie='.$idCateg.'" method="post">
+                        <form action="produse.php?categorie='.$idCateg.'" method="post"  enctype="multipart/form-data">
                         <input name="comanda" type="hidden" value="add" />
                         <label>
                             Nume:
@@ -125,11 +168,11 @@ include "connect.php";
                         <label>
                             Pret:
                         </label>
-                        <input name="pret" type="number" value="'.$pret.'" />
+                        <input name="pret" type="number" step="any" value="'.$pret.'" />
                         <label>
                         Gramaj:
                         </label>
-                        <input name="gramaj" type="number" value="'.$gramaj.'" />
+                        <input name="gramaj" type="number" step="any" value="'.$gramaj.'" />
                         <label>
                         Ingrediente:
                         </label>
@@ -137,34 +180,74 @@ include "connect.php";
                         <label>
                         Imagine:
                         </label>
-                        <input name="caleImagineProdus" type="text" value="'.$caleImagineProdus.'"/>
+                        <input type="file" name="caleImagineProdus" id="caleImagineProdus" >
+                        
                         <button type="submit" name="categorie" value="'.$idCateg.'">ADD</button>
                     </form>
                     <br/>
                     <br/>
                     </div>';
+
+                    $target_dir = "../Imagini/";
+                    $target_file = $target_dir . basename($_FILES["caleImagineProdus"]["name"]);
+                    $uploadOk = 1;
+                    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+                    // Check if image file is a actual image or fake image
+                    if(isset($_POST["submit"])) {
+                    $check = getimagesize($_FILES["caleImagineProdus"]["tmp_name"]);
+                    if($check !== false) {
+                        //echo "File is an image - " . $check["mime"] . ".";
+                        $uploadOk = 1;
+                    } else {
+                        //echo "File is not an image.";
+                        $uploadOk = 0;
+                    }
+                    }
+                    // Check if file already exists
+                    if (file_exists($target_file)) {
+                    //echo "Sorry, file already exists.";
+                    $uploadOk = 0;
+                    }
+                
+                    // Allow certain file formats
+                    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif" ) {
+                   // echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                    $uploadOk = 0;
+                    }
+                    // Check if $uploadOk is set to 0 by an error
+                    if ($uploadOk == 0) {
+                   // echo "Sorry, your file was not uploaded.";
+                    // if everything is ok, try to upload file
+                    } else {
+                    if (move_uploaded_file($_FILES["caleImagineProdus"]["tmp_name"], $target_file)) {
+                        //echo "The file ". basename( $_FILES["caleImagineProdus"]["name"]). " has been uploaded.";
+                    } else {
+                       // echo "Sorry, there was an error uploading your file.";
+                    }
+                    }
                     
                     $numeProdus= $_REQUEST["numeProdus"];
                     $pret= $_REQUEST["pret"];
                     $gramaj= $_REQUEST["gramaj"];
                     $ingrediente= $_REQUEST["ingrediente"];
-                    $caleImagineProdus= $_REQUEST["caleImagineProdus"];
+                    $caleImagineProdus= $target_file;
 
-                    $stmt =$conexiune -> prepare("INSERT INTO produse (numeProdus,pret,gramaj,ingrediente,caleImagineProdus) VALUES (?,?,?,?,?)");
-                    $stmt->bind_param("sddss",$numeProdus,$pret,$gramaj,$ingrediente, $caleImagineProdus);
-                   
-                    $stmt->execute();
+                    if(basename($_FILES["caleImagineProdus"]["name"]) && $numeProdus && $pret && $gramaj && $ingrediente){
+                        $stmt =$conexiune -> prepare("INSERT INTO produse (numeProdus,pret,gramaj,ingrediente,caleImagineProdus) VALUES (?,?,?,?,?)");
+                        $stmt->bind_param("sddss",$numeProdus,$pret,$gramaj,$ingrediente, $caleImagineProdus);
+                    
+                        $stmt->execute();
 
-                    $sqlSelect="SELECT * FROM produse WHERE numeProdus='$numeProdus' AND pret='$pret' AND gramaj='$gramaj' AND
-                    ingrediente='$ingrediente' AND caleImagineProdus ='$caleImagineProdus'";
-                    $resSelect = mysqli_query($conexiune, $sqlSelect) or die(mysqli_error($conexiune));
-                    $rowSelect=mysqli_fetch_array($resSelect);
+                        $sqlSelect="SELECT * FROM produse WHERE numeProdus='$numeProdus'";
+                        $resSelect = mysqli_query($conexiune, $sqlSelect) or die(mysqli_error($conexiune));
+                        $rowSelect=mysqli_fetch_array($resSelect);
 
-                    $idProdusSelectat = $rowSelect['idProdus'];
-                    $sqlAddLeg =$conexiune -> prepare("INSERT INTO detaliimeniu(idMeniu,idProdus) VALUES (?,?)");
-                    $sqlAddLeg->bind_param("dd",$idCateg,$idProdusSelectat );
-                    $sqlAddLeg->execute();
-
+                        $idProdusSelectat = $rowSelect['idProdus'];
+                        $sqlAddLeg =$conexiune -> prepare("INSERT INTO detaliimeniu(idMeniu,idProdus) VALUES (?,?)");
+                        $sqlAddLeg->bind_param("dd",$idCateg,$idProdusSelectat );
+                        $sqlAddLeg->execute();
+                    }
                 break;
             }
         }
