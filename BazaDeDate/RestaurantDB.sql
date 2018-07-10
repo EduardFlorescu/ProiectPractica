@@ -1,9 +1,11 @@
 CREATE DATABASE restaurantdb;
 
 CREATE TABLE meniu(
-	idMeniu INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	numeCategorie VARCHAR(50),
-	caleImagineCategorie VARCHAR(100)
+	idMeniu INT NOT NULL AUTO_INCREMENT,
+	numeCategorie VARCHAR(50) UNIQUE,
+	caleImagineCategorie VARCHAR(100),
+    PRIMARY KEY(idMeniu),
+    UNIQUE(numeCategorie)
 );
 
 CREATE TABLE detaliiMeniu(
@@ -11,12 +13,14 @@ CREATE TABLE detaliiMeniu(
 	idProdus INT
 );
 CREATE TABLE produse(
-    idProdus INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    idProdus INT NOT NULL AUTO_INCREMENT,
 	numeProdus VARCHAR(50),
-	pret DECIMAL(8,2),
-	gramaj DECIMAL(8,2),
+	pret FLOAT,
+	gramaj FLOAT,
 	ingrediente VARCHAR(300),
-	caleImagineProdus VARCHAR(100)
+	caleImagineProdus VARCHAR(100),
+	PRIMARY KEY(idProdus),
+	UNIQUE(numeProdus)
 );
 
 ALTER TABLE detaliiMeniu
@@ -28,11 +32,13 @@ ADD CONSTRAINT FK_Id_Produs
 FOREIGN KEY (idProdus) REFERENCES produse(idProdus);
 
 CREATE TABLE cont(
-	idCont INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	nume VARCHAR(50),
+	idCont INT NOT NULL AUTO_INCREMENT,
+	nume VARCHAR(50) UNIQUE,
 	prenume VARCHAR(50),
 	username VARCHAR(50),
-	password VARCHAR(50)
+	password VARCHAR(50),
+    PRIMARY KEY(idCont),
+    UNIQUE(username)
 );
 
 INSERT INTO cont (`nume`,`prenume`,`username`,`password`) VALUES ('Zachary','Soler','zach_s',MD5('TehnologiiWeb'));
