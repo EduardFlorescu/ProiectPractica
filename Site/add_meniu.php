@@ -5,6 +5,7 @@ include "connect.php";
 
 <div id="content">
 <?php
+if($ok==1){
     $comanda = $_REQUEST["comanda"];
     if (isset($comanda)) {
         switch ($comanda){
@@ -52,19 +53,25 @@ include "connect.php";
                 $img =$target_file;
                 $nume = $_REQUEST["nume"];
                 $nume=mysqli_real_escape_string($conexiune,$nume);
-                if(basename($_FILES["fileToUpload"]["name"]) && $nume){
+                $img=mysqli_real_escape_string($conexiune,$img);
+                $nume=htmlspecialchars($nume);
+                $img=htmlspecialchars($img);
+
+                if(basename($_FILES["fileToUpload"]["name"]) && $nume && $ok==1){
                 $sql="INSERT INTO meniu(numeCategorie,caleImagineCategorie) VALUES ('$nume','$img')";
 
                 if (!mysqli_query($conexiune, $sql)) {
                     die('Error: ' . mysqli_error($conexiune));
                 }
-                echo "<font color='red'>Intrare adaugata cu succes</font><br/>";
+               // echo "<font color='red'>Intrare adaugata cu succes</font><br/>";
                 }
                 break;
         }
 
     }
-
+}else{
+    header("Location: login.php");
+}
 ?>
 <div class="centered">
   <div class="row">

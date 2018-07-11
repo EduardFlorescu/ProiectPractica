@@ -28,10 +28,10 @@ include "connect.php";
 <?php
         $comanda = $_REQUEST["comanda"];
         if (isset($comanda)) {
+            if($ok==1){
             switch ($comanda){
                 case 'delete':
                     $idSterg = $_REQUEST["delete"];
-
                     $sqlSterg = "DELETE FROM detaliimeniu WHERE idProdus='$idSterg'";
                     if (!mysqli_query($conexiune, $sqlSterg)) {
                         die('Error: ' . mysqli_error($conexiune));
@@ -41,7 +41,7 @@ include "connect.php";
                     if (!mysqli_query($conexiune, $sqlSterg)) {
                         die('Error: ' . mysqli_error($conexiune));
                     }
-                    echo "<font color='red'>Intrarea cu id-ul $idSterg a fost stearsa cu succes</font><br/>";
+                    //echo "<font color='red'>Intrarea cu id-ul $idSterg a fost stearsa cu succes</font><br/>";
                     break;
 
                 case 'edit':
@@ -56,7 +56,7 @@ include "connect.php";
                         $gramaj=$rowEdit['gramaj'];
                         $ingrediente=$rowEdit['ingrediente'];
                         $caleImagineProdus=$rowEdit['caleImagineProdus'];
-
+                    if($ok==1){
                     echo '
                     <div class="centered">
                       <div class="row">
@@ -103,8 +103,9 @@ include "connect.php";
                     </div>
                   </div>
                 </div>';
+                }
                     }else{
-                        echo "<font color='red'>Intrarea cu id-ul $idEdit nu exista!</font><br/>";
+                        //echo "<font color='red'>Intrarea cu id-ul $idEdit nu exista!</font><br/>";
                     }
                     break;
                 case 'update':
@@ -138,7 +139,7 @@ include "connect.php";
                 }
                 // Check if $uploadOk is set to 0 by an error
                 if ($uploadOk == 0) {
-                echo "Sorry, your file was not uploaded.";
+                //echo "Sorry, your file was not uploaded.";
                 // if everything is ok, try to upload file
                 } else {
                 if (move_uploaded_file($_FILES["caleImagineProdus"]["tmp_name"], $target_file)) {
@@ -159,20 +160,24 @@ include "connect.php";
 
 
 
-                    $numeProdus= mysqli_real_escape_string($conexiune,$numeProdus);
-                    //$pret= mysqli_real_escape_string($conexiune,$pret);
-                    //$gramaj= mysqli_real_escape_string($conexiune,$gramaj);
-                    $ingrediente= mysqli_real_escape_string($conexiune,$ingrediente);
-                    $caleImagineProdus= mysqli_real_escape_string($conexiune,$caleImagineProdus);
-                if(basename($_FILES["caleImagineProdus"]["name"]) && $numeProdus && $pret && $gramaj && $ingrediente){
+                    $numeProdus= htmlspecialchars($numeProdus);
+                    $numeProdus=mysqli_real_escape_string($conexiune,$numeProdus);
+
+                    $ingrediente= htmlspecialchars($ingrediente);
+                    $ingrediente=mysqli_real_escape_string($conexiune,$ingrediente);
+
+                    $caleImagineProdus= htmlspecialchars($caleImagineProdus);
+                    $caleImagineProdus=mysqli_real_escape_string($conexiune,$caleImagineProdus);
+
+                if(basename($_FILES["caleImagineProdus"]["name"]) && $numeProdus && $pret && $gramaj && $ingrediente && $ok==1){
                     $sqlUpp = "UPDATE produse SET numeProdus='$numeProdus', pret='$pret', gramaj='$gramaj',
                     ingrediente='$ingrediente', caleImagineProdus ='$caleImagineProdus' WHERE idProdus='$idProdus'";
 
                     if (!mysqli_query($conexiune, $sqlUpp)) {
                     die('Error: ' . mysqli_error($conexiune));
                     } else {
-                    echo "<font color='red'>Intrarea cu idul
-                    $idProdus a fost actualizata cu succes!</font><br/>";
+                   // echo "<font color='red'>Intrarea cu idul
+                    //$idProdus a fost actualizata cu succes!</font><br/>";
                     }
                 }
                 break;
@@ -183,6 +188,7 @@ include "connect.php";
                     <div class="centered">
                       <div class="row">
                         <div class="col-xs-12">
+                        
                           <form action="produse.php?categorie='.$idCateg.'" method="post" class="form-horizontal" enctype="multipart/form-data">
                             <input name="comanda" type="hidden" value="add" />
                             <div class="form-group">
@@ -220,6 +226,7 @@ include "connect.php";
                                 <button type="submit" name="categorie" class="btn btn-default" value="'.$idCateg.'">ADD</button>
                               </div>
                           </form>
+
                       </div>
                     </div>
                   </div>';
@@ -272,12 +279,21 @@ include "connect.php";
                     $caleImagineProdus= $target_file;
 
                     if(basename($_FILES["caleImagineProdus"]["name"]) && $numeProdus && $pret && $gramaj && $ingrediente){
+                        $numeProdus= htmlspecialchars($numeProdus);
+                        $numeProdus=mysqli_real_escape_string($conexiune,$numeProdus);
+
+                        $ingrediente= htmlspecialchars($ingrediente);
+                        $ingrediente=mysqli_real_escape_string($conexiune,$ingrediente);
+
+                        $caleImagineProdus= htmlspecialchars($caleImagineProdus);
+                        $caleImagineProdus=mysqli_real_escape_string($conexiune,$caleImagineProdus);
+
                         $stmt =$conexiune -> prepare("INSERT INTO produse (numeProdus,pret,gramaj,ingrediente,caleImagineProdus) VALUES (?,?,?,?,?)");
                         $stmt->bind_param("sddss",$numeProdus,$pret,$gramaj,$ingrediente, $caleImagineProdus);
 
                         $stmt->execute();
-
-                        $sqlSelect="SELECT * FROM produse WHERE numeProdus='$numeProdus'";
+                           // echo $numeProdus;
+                        $sqlSelect="SELECT * FROM produse WHERE numeProdus LIKE '$numeProdus'";
                         $resSelect = mysqli_query($conexiune, $sqlSelect) or die(mysqli_error($conexiune));
                         $rowSelect=mysqli_fetch_array($resSelect);
 
@@ -288,8 +304,11 @@ include "connect.php";
                     }
                 break;
             }
+        }else{
+            header("Location: login.php");
         }
-
+        }
+   
         $query = "SELECT * FROM produse WHERE idProdus IN (SELECT idProdus FROM detaliimeniu WHERE idMeniu='$idCateg')";
         $res = mysqli_query($conexiune, $query) or die(mysqli_error($conexiune));
 

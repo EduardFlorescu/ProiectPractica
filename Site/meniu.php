@@ -9,24 +9,30 @@ include "header.php";
     <div>
     <div id="meniuri">
     <?php
-    $comanda = $_REQUEST["comanda"];
-    if (isset($comanda)) {
-        switch ($comanda){
-            case 'delete':
 
-                $id = $_REQUEST["delete"];
-                $sqlSterg = "DELETE FROM detaliimeniu WHERE idMeniu='$id'";
-                    if (!mysqli_query($conexiune, $sqlSterg)) {
+    $comanda = $_REQUEST["comanda"];
+    
+    if (isset($comanda)) {
+        if($ok==1){
+            switch ($comanda){
+                case 'delete':
+
+                    $id = $_REQUEST["delete"];
+                    $sqlSterg = "DELETE FROM detaliimeniu WHERE idMeniu='$id'";
+                        if (!mysqli_query($conexiune, $sqlSterg)) {
+                            die('Error: ' . mysqli_error($conexiune));
+                        }
+
+                    $id = $_REQUEST["delete"];
+                    $sql = "DELETE FROM meniu WHERE idMeniu='$id'";
+                    if (!mysqli_query($conexiune, $sql)) {
                         die('Error: ' . mysqli_error($conexiune));
                     }
-
-                $id = $_REQUEST["delete"];
-                $sql = "DELETE FROM meniu WHERE idMeniu='$id'";
-                if (!mysqli_query($conexiune, $sql)) {
-                    die('Error: ' . mysqli_error($conexiune));
-                }
-                echo "<font color='red'>Intrarea cu id-ul $id a fost stearsa cu succes</font><br/>";
-                break;
+                    //echo "<font color='red'>Intrarea cu id-ul $id a fost stearsa cu succes</font><br/>";
+                    break;
+            }
+        }else{
+            header("Location: login.php");
         }
 
     }
@@ -58,7 +64,7 @@ include "header.php";
             }
             print('</tr></table>');
         }else{
-            print("Nu exista intrari in baza de date!");
+            print("Nu exista un meniu disponibil!");
         }
     ?>
     </div>
