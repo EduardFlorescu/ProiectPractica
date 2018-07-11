@@ -4,7 +4,7 @@ include "header.php";
 <div id="content">
     <div id="btn">
     <?php if($ok==1)
-            echo '<a href="add_meniu.php"><button type="button" class="btn btn-success">ADD</button></a>';
+            echo '<a href="add_meniu.php"><button type="button">ADD</button></a>';
         ?>
     <div>
     <div id="meniuri">
@@ -38,17 +38,21 @@ include "header.php";
     }
 
 ?>
-    
+
     <?php
         $query = "Select * from meniu";
         $result = mysqli_query($conexiune, $query);
 
         if(mysqli_num_rows($result)){
-            print('<br/><table align="center"><tr>');
+            $counter=0;
+            print('<br/><div class="centered"><table align="center" class="table table-hover"><tr>');
             while($row=mysqli_fetch_array($result)){
-            echo '<td><form action="produse.php"><button type="submit" name="categorie" value="'.$row['idMeniu'].'">
-            <img src="'.$row['caleImagineCategorie'].'" alt="'.$row['numeCategorie'].'" height="100" weight="100" ></button>
-            <div class="centered">'.$row['numeCategorie'].'</div></a>    </form>';
+              if($counter%5==0){
+                echo '<tr>';
+              }
+            echo '<td><form action="produse.php"><button type="submit" class="" name="categorie" value="'.$row['idMeniu'].'">
+            <img src="'.$row['caleImagineCategorie'].'" alt="'.$row['numeCategorie'].'" height="100" weight="100" ></button><br>'.$row['numeCategorie'].'</div></a>    </form>';
+            $counter++;
     ?>
 
      <?php if($ok==1)
@@ -58,10 +62,13 @@ include "header.php";
         <input type="submit" value="Delete" />
     </form>';
     ?>
-    
+
     <?php
       echo '</td>';
             }
+        while(counter>=1){
+          echo '</tr>';
+        }
             print('</tr></table>');
         }else{
             print("Nu exista un meniu disponibil!");
