@@ -10,6 +10,10 @@ body, html {
     position: inherit;
     text-align: center;
 }
+.buttonMeniu{
+	font-size:70px;
+	border-radius: 12px;
+}
 h1 {
 	font-weight: 700;
 }
