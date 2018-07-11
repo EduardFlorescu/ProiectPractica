@@ -31,7 +31,7 @@ if($ok==1){
                // echo "Sorry, file already exists.";
                 $uploadOk = 0;
                 }
-                
+
                 // Allow certain file formats
                 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
                 && $imageFileType != "gif" ) {
@@ -92,7 +92,7 @@ if($ok==1){
                 </div>
                 <div class="form-group">
                   <div class="col-sm-10 col-sm-push-2">
-                      <input type="submit" value="Submit" name="submit">
+                      <input class="btn btn-primary" type="submit" value="Submit" name="submit">
                   </div>
                </div>
           </form>
