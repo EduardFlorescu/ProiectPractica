@@ -41,6 +41,12 @@ CREATE TABLE cont(
     UNIQUE(username)
 );
 
+ALTER DATABASE restaurantdb CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE cont CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE detaliimeniu CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE meniu CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE produse CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 INSERT INTO `cont` (`nume`,`prenume`,`username`,`password`) VALUES ('Zachary','Soler','zach_s',MD5('TehnologiiWeb'));
 
 INSERT INTO `meniu` (`idMeniu`, `numeCategorie`,`caleImagineCategorie`) VALUES ('1','SUPA','../Imagini/supa.jpg');
