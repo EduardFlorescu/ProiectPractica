@@ -73,13 +73,13 @@ include "connect.php";
                             <div class="form-group">
                                 <label for="Pret" class="col-sm-2 control-label">Pret:</label>
                                 <div class="col-sm-10">
-                                  <input name="pret" class="form-control" type="number" step="any" id="Pret" value="'.$pret.'" />
+                                  <input name="pret" class="form-control" type="number" min="0" step="any" id="Pret" value="'.$pret.'" />
                                 </div>
                             </div>
                             <div class="form-group">
                               <label for="Gramaj" class="col-sm-2 control-label" >Gramaj:</label>
                                 <div class="col-sm-10">
-                                  <input name="gramaj" class="form-control" type="number" step="any" id="Gramaj" value="'.$gramaj.'" />
+                                  <input name="gramaj" class="form-control" type="number" min="0" step="any" id="Gramaj" value="'.$gramaj.'" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -194,13 +194,13 @@ include "connect.php";
                             <div class="form-group">
                                 <label for="Pret" class="col-sm-2 control-label">Pret:</label>
                                 <div class="col-sm-10">
-                                  <input name="pret" class="form-control" type="number" step="any" id="Pret" value="'.$pret.'" />
+                                  <input name="pret" class="form-control" type="number" min="0" step="any" id="Pret" value="'.$pret.'" />
                                 </div>
                             </div>
                             <div class="form-group">
                               <label for="Gramaj" class="col-sm-2 control-label" >Gramaj:</label>
                                 <div class="col-sm-10">
-                                  <input name="gramaj" class="form-control" type="number" step="any" id="Gramaj" value="'.$gramaj.'" />
+                                  <input name="gramaj" class="form-control" type="number" min="0" step="any" id="Gramaj" value="'.$gramaj.'" />
                                 </div>
                             </div>
                             <div class="form-group">
