@@ -89,9 +89,15 @@ include "connect.php";
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="caleImagineProdus"  class="col-sm-2 control-label">Imagine:</label>
+                                <label for="caleImagine"  class="col-sm-2 control-label">Imagine:</label>
                                 <div class="col-sm-10">
-                                  <input name="caleImagineProdus"  class="form-control" type="file" id="caleImagineProdus" value="'.$caleImagineProdus.'"/>
+                                  <input name="caleImagine"  class="form-control" type="text" id="caleImagine" value="'.$caleImagineProdus.'" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="caleImagineProdus"  class="col-sm-2 control-label">Buton pentru selectarea imaginii:</label>
+                                <div class="col-sm-10">
+                                  <input name="caleImagineProdus"  class="form-control" type="file" id="caleImagineProdus"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -149,14 +155,20 @@ include "connect.php";
                 }
                 }
 
+                    $caleImagine=$_REQUEST[$caleImagine];
                     $idProdus= $_REQUEST["idProdus"];
                     $numeProdus= $_REQUEST["numeProdus"];
                     $pret= $_REQUEST["pret"];
                     $gramaj= $_REQUEST["gramaj"];
                     $ingrediente= $_REQUEST["ingrediente"];
 
-                    $caleImagineProdus= $target_file;
-
+                    if(basename($_FILES["caleImagineProdus"]["name"])){
+                        $caleImagineProdus= $target_file;
+                        $caleImagine=$caleImagineProdus;
+                    }
+                    else{
+                        $caleImagineProdus=$caleImagine;
+                    }
 
 
 
