@@ -155,7 +155,7 @@ include "connect.php";
                 }
                 }
 
-                    $caleImagine=$_REQUEST[$caleImagine];
+                    $caleImagine=$_REQUEST["caleImagine"];
                     $idProdus= $_REQUEST["idProdus"];
                     $numeProdus= $_REQUEST["numeProdus"];
                     $pret= $_REQUEST["pret"];
@@ -170,8 +170,6 @@ include "connect.php";
                         $caleImagineProdus=$caleImagine;
                     }
 
-
-
                     $numeProdus= htmlspecialchars($numeProdus);
                     $numeProdus=mysqli_real_escape_string($conexiune,$numeProdus);
 
@@ -181,7 +179,7 @@ include "connect.php";
                     $caleImagineProdus= htmlspecialchars($caleImagineProdus);
                     $caleImagineProdus=mysqli_real_escape_string($conexiune,$caleImagineProdus);
 
-                if(basename($_FILES["caleImagineProdus"]["name"]) && $numeProdus && $pret && $gramaj && $ingrediente && $ok==1){
+                if($caleImagineProdus && $numeProdus && $pret && $gramaj && $ingrediente && $ok==1){
                     $sqlUpp = "UPDATE produse SET numeProdus='$numeProdus', pret='$pret', gramaj='$gramaj',
                     ingrediente='$ingrediente', caleImagineProdus ='$caleImagineProdus' WHERE idProdus='$idProdus'";
 
@@ -293,7 +291,7 @@ include "connect.php";
                     if(basename($_FILES["caleImagineProdus"]["name"]) && $numeProdus && $pret && $gramaj && $ingrediente){
                         $numeProdus= htmlspecialchars($numeProdus);
                         $numeProdus=mysqli_real_escape_string($conexiune,$numeProdus);
-
+                        
                         $ingrediente= htmlspecialchars($ingrediente);
                         $ingrediente=mysqli_real_escape_string($conexiune,$ingrediente);
 
@@ -304,7 +302,7 @@ include "connect.php";
                         $stmt->bind_param("sddss",$numeProdus,$pret,$gramaj,$ingrediente, $caleImagineProdus);
 
                         $stmt->execute();
-                           // echo $numeProdus;
+                    
                         $sqlSelect="SELECT * FROM produse WHERE numeProdus LIKE '$numeProdus'";
                         $resSelect = mysqli_query($conexiune, $sqlSelect) or die(mysqli_error($conexiune));
                         $rowSelect=mysqli_fetch_array($resSelect);
