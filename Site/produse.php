@@ -20,7 +20,7 @@ include "connect.php";
                 $idCateg = $_GET["categorie"];
                 echo '<form action="produse.php?categorie='.$idCateg.'">
                 <input name="comanda" type="hidden" value="add" />
-                <button type="submit" name="categorie" value="'.$idCateg.'">ADD</button>
+                <button class="btn btn-primary" type="submit"  name="categorie" value="'.$idCateg.'">ADD</button>
                 </form>';
         }
             ?>
@@ -102,7 +102,7 @@ include "connect.php";
                             </div>
                             <div class="form-group">
                               <div class="col-sm-10  col-sm-push-2 ">
-                                <button type="submit" name="categorie" value="'.$idCateg.'">Update</button>
+                                <button class="btn btn-primary" type="submit" name="categorie" value="'.$idCateg.'">Update</button>
                               </div>
                             </div>
                         </form>
@@ -200,7 +200,7 @@ include "connect.php";
                     <div class="centered">
                       <div class="row">
                         <div class="col-xs-12">
-                        
+
                           <form action="produse.php?categorie='.$idCateg.'" method="post" class="form-horizontal" enctype="multipart/form-data">
                             <input name="comanda" type="hidden" value="add" />
                             <div class="form-group">
@@ -235,7 +235,7 @@ include "connect.php";
                             </div>
                             <div class="form-group">
                               <div class="col-sm-10  col-sm-push-2 ">
-                                <button type="submit" name="categorie" class="btn btn-default" value="'.$idCateg.'">ADD</button>
+                                <button type="submit" name="categorie" class="btn btn-primary" value="'.$idCateg.'">ADD</button>
                               </div>
                           </form>
 
@@ -320,7 +320,7 @@ include "connect.php";
             header("Location: login.php");
         }
         }
-   
+
         $query = "SELECT * FROM produse WHERE idProdus IN (SELECT idProdus FROM detaliimeniu WHERE idMeniu='$idCateg')";
         $res = mysqli_query($conexiune, $query) or die(mysqli_error($conexiune));
 
@@ -350,11 +350,11 @@ include "connect.php";
                 if($ok==1){
                     echo '<td><form action="produse.php?categorie='.$idCateg.'"><input name="comanda" type="hidden" value="delete" />
                     <input type="hidden" name="delete" value="'.$row["idProdus"].'"/>
-                    <button type="submit" name="categorie" value="'.$idCateg.'">Delete</button></form></td>';
+                    <button class="btn btn-primary" type="submit" name="categorie" value="'.$idCateg.'">Delete</button></form></td>';
 
                     echo '<td><form action="produse.php?categorie='.$idCateg.'"><input name="comanda" type="hidden" value="edit" />
                     <input type="hidden" name="edit" value="'.$row["idProdus"].'"/>
-                    <button type="submit" name="categorie" value="'.$idCateg.'">Edit</button>
+                    <button class="btn btn-primary" type="submit" name="categorie" value="'.$idCateg.'">Edit</button>
                     </form></td>';
                 }
                 echo '</tr>';

@@ -1,17 +1,16 @@
 <?php
 include "header.php";
 ?>
-<div id="content">
+<div id="container">
     <div id="btn">
     <?php if($ok==1)
-            echo '<a href="add_meniu.php"><button type="button">ADD</button></a>';
+            echo '<a href="add_meniu.php"><button class="btn btn-primary" type="button">ADD</button></a>';
         ?>
-    <div>
-    <div id="meniuri">
+    </div>
     <?php
 
     $comanda = $_REQUEST["comanda"];
-    
+
     if (isset($comanda)) {
         if($ok==1){
             switch ($comanda){
@@ -42,9 +41,8 @@ include "header.php";
     <?php
         $query = "Select * from meniu";
         $result = mysqli_query($conexiune, $query);
-
+        $counter=0;
         if(mysqli_num_rows($result)){
-            $counter=0;
             print('<br/><div class="centered"><table align="center" class="table table-hover"><tr>');
             while($row=mysqli_fetch_array($result)){
               if($counter%5==0){
@@ -59,22 +57,23 @@ include "header.php";
     echo '<form action="meniu.php" method="post">
       <input name="comanda" type="hidden" value="delete" />
       <input type="hidden" name="delete" value="'.$row["idMeniu"].'"/>
-        <input type="submit" value="Delete" />
+        <input class="btn btn-primary"  type="submit" value="Delete" />
     </form>';
     ?>
 
     <?php
       echo '</td>';
             }
-        while(counter>=1){
+        while($counter>=1){
           echo '</tr>';
+          $counter--;
         }
             print('</tr></table>');
         }else{
             print("Nu exista un meniu disponibil!");
         }
     ?>
-    </div>
+
 </div>
 <?php
 include "footer.php"
