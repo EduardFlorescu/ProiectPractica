@@ -24,7 +24,7 @@ include "connect.php";
                 </form>';
         }
             ?>
-        <div>
+        </div>
 <?php
         $comanda = $_REQUEST["comanda"];
         if (isset($comanda)) {
@@ -291,7 +291,7 @@ include "connect.php";
                     if(basename($_FILES["caleImagineProdus"]["name"]) && $numeProdus && $pret && $gramaj && $ingrediente){
                         $numeProdus= htmlspecialchars($numeProdus);
                         $numeProdus=mysqli_real_escape_string($conexiune,$numeProdus);
-                        
+
                         $ingrediente= htmlspecialchars($ingrediente);
                         $ingrediente=mysqli_real_escape_string($conexiune,$ingrediente);
 
@@ -302,9 +302,11 @@ include "connect.php";
                         $stmt->bind_param("sddss",$numeProdus,$pret,$gramaj,$ingrediente, $caleImagineProdus);
 
                         $stmt->execute();
-                    
-                        $sqlSelect="SELECT * FROM produse WHERE numeProdus LIKE '$numeProdus'";
-                        $resSelect = mysqli_query($conexiune, $sqlSelect) or die(mysqli_error($conexiune));
+
+                        $sqlSelect=$conexiune->prepare("SELECT * FROM produse WHERE numeProdus LIKE (?)");
+                        $sqlSelect->bind_param("s",$numeProdus);
+                        $sqlSelect->execute();
+                        //$resSelect = mysqli_query($conexiune, $sqlSelect) or die(mysqli_error($conexiune));
                         $rowSelect=mysqli_fetch_array($resSelect);
 
                         $idProdusSelectat = $rowSelect['idProdus'];
@@ -348,7 +350,7 @@ include "connect.php";
                 if($ok==1){
                     echo '<td><form action="produse.php?categorie='.$idCateg.'"><input name="comanda" type="hidden" value="delete" />
                     <input type="hidden" name="delete" value="'.$row["idProdus"].'"/>
-                    <button class="btn btn-primary" type="submit" name="categorie" value="'.$idCateg.'">Delete</button></form></td>';
+                    <button class="btn btn-primary" type="submit" Onclick="return ConfirmDelete()" name="categorie" value="'.$idCateg.'">Delete</button></form></td>';
 
                     echo '<td><form action="produse.php?categorie='.$idCateg.'"><input name="comanda" type="hidden" value="edit" />
                     <input type="hidden" name="edit" value="'.$row["idProdus"].'"/>

@@ -57,7 +57,7 @@ include "header.php";
     echo '<form action="meniu.php" method="post">
       <input name="comanda" type="hidden" value="delete" />
       <input type="hidden" name="delete" value="'.$row["idMeniu"].'"/>
-        <input class="btn btn-primary"  type="submit" value="Delete" />
+        <input class="btn btn-primary" Onclick="return ConfirmDelete()" type="submit" value="Delete" />
     </form>';
     ?>
 
